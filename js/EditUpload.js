@@ -1,6 +1,5 @@
 $("button.btn-rm").click(function(event){
-  alert("remove");
-  /*var button_id = $(this).attr("mid");
+  var button_id = $(this).attr("mid");
   var card_id   = button_id.replace("_", "");
   var mid       = button_id.split("_")[0];
  
@@ -10,7 +9,7 @@ $("button.btn-rm").click(function(event){
     })
     .fail(function(data){
       alert("Failed to remove: " + data)
-    });*/
+    });
 });
 
 $("button.btn-edit").click( function(event){

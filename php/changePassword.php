@@ -7,7 +7,7 @@ if($conn->connect_error) die($conn->connect_error);
 
 if(isset($_POST['submit'])){
   $stmt = $conn->stmt_init();
-  $query = "SELECT passwd FROM User where UID=?";
+  $query = "SELECT passwd FROM User where IdUser=?";
   
   if(!$stmt->prepare($query)){
     print "<h1>Failed to prepare for query.</h1>";

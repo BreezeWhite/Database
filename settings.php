@@ -46,6 +46,7 @@
           <a class="list-group-item list-group-item-action active" data-toggle="list" href="#accountInfo" role="tab">Account Info</a>
           <a class="list-group-item list-group-item-action" data-toggle="list" href="#upload" role="tab">Your Upload</a>
           <a class="list-group-item list-group-item-action" data-toggle="list" href="#followers" role="tab">Followers</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#mail" role="tag">Mail</a>
           <a class="list-group-item list-group-item-action" data-toggle="list" href="#security" role="tab">Security</a>
           <a class="list-group-item list-group-item-action" data-toggle="list" href="#others" role="tab">Others</a>
         </div>
@@ -62,20 +63,7 @@
                 <?php include "php/getUploadedMusic.php"; ?>
               </div>
             </div>
-            <script>
-              $("button").click(function(){
-                var button_id = $(this).attr("id");
-                var card_id = button_id.replace("_", "");
-                var mid = button_id.split("_")[0];
-                $.post('php/removeMusic.php', { IdMusic: mid } )
-                  .done(function(){
-                    $("#"+card_id).fadeOut(800, function(){ $("#"+card_id).remove()});
-                  })
-                  .fail(function(data){
-                    alert("Failed to remove: " + data)
-                  });
-              });
-            </script>
+            
           </div>
 
           <!-- Followers pane -->
@@ -90,10 +78,23 @@
                   });
             </script>
           </div>
+
+          <!-- Mail pane -->
+          <div class="tab-pane fade" role="tabpanel" id="mail">
+            <div class="container-fluid row">
+              <div class="list-group col-sm-3 mb-3" id="settingList" role="tablist">
+                <?php include "php/getConnectList.php";  ?>
+              </div>
+              <div class="tab-content col-sm-9">
+                <?php include "php/PrintMailContent.php";  ?>
+              </div>
+            </div>
+            <script src="js/sendMail.js"></script>
+          </div>
           
           <!-- Change password pane -->
           <div class="tab-pane fade" role="tabpanel" id="security">
-            <div class="container-fulid row">
+            <div class="container-fluid row">
               <form class="col-md-7 mr-auto" action="php/changePassword.php" method="POST">
                 <div class="form-group"><input type="password" class="form-control" name="oldPwd" placeholder="Old password" required></div>
                 <div class="form-group"><input type="password" class="form-control" name="newPwd" placeholder="Enter new password" required id="newPwd" onkeyup="checkMatch();"></div>
@@ -108,7 +109,12 @@
             </div>
           </div>
           
-          <div class="tab-pane fade" role="tabpanel" id="others"></div>
+          <!-- Others pane -->
+          <div class="tab-pane fade" role="tabpanel" id="others">
+            <p class="text-muted"> No content yet... </p>
+          </div>
+
+
         </div>
       </div><!--End of row-->
     </div><!--End of container-->

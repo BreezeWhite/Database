@@ -38,33 +38,34 @@
       <a href="create_acount.html" class="forgot-password">
           Create acount
       </a>
+      <script>
+        $("form").on("submit", function(event){
+          event.preventDefault();
+          var data = $(this).serialize();
+          $.ajax({
+            url: "php/sign_in.php", 
+            method: "POST",
+            dataType: "json",
+            data: data})
+              .done(function(result){
+                if(result.success){
+                  window.location.href = "./index.php";
+                }
+                else{
+                  $("#warning").html("Invalid password or username.");
+                } 
+              })
+              .fail(function(jxx, textStatus){
+                alert(textStatus);
+              });
+        });
+      </script>
     </div><!-- /card-container -->
   </div><!-- /container -->
   </body>
 </html>
 
-<script>
-  $("form").on("submit", function(event){
-    event.preventDefault();
-    var data = $(this).serialize();
-    $.ajax({
-      url: "php/sign_in.php", 
-      method: "POST",
-      dataType: "json",
-      data: data})
-        .done(function(result){
-          if(result.success){
-            window.location.href = "./index.html";
-          }
-          else{
-            $("#warning").html("Invalid password or username.");
-          } 
-        })
-        .fail(function(jxx, textStatus){
-          alert(textStatus);
-        });
-  });
-</script>
+
 
 
 

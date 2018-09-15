@@ -16,23 +16,27 @@ foreach($result as $contact){
   $res = getContent($contact['MailFrom']);
 
   if(empty($res)){
-    echo "<p> you don't have any message. </p>";
+    echo "<p class='text-muted'> You don't have any message. </p>";
     return;
   }
 
   foreach($res as $content){
     if($content['IdTo'] == $_SESSION['IdUser']){
       echo <<< _END
-              <div class="from-them">
-                <p>{$content['Content']}</p>
-              </div><!--End of message container-->
+        <div class="from-them card bg-secondary text-white">
+          <div class="card-body">
+            <p class="card-text">{$content['Content']}</p>
+          </div>
+        </div><!--End of message container-->
 _END;
 
     }else{
       echo <<< _END
-              <div class="from-me">
-                <p>{$content['Content']}</p>
-              </div><!--End of message container-->
+        <div class="from-me card bg-primary text-white container">
+          <div class="card-body row justify-content-end">
+            <p class="card-text">{$content['Content']}</p>
+          </div>
+        </div><!--End of message container-->
 _END;
 
     }
@@ -40,7 +44,7 @@ _END;
   }
   echo <<< _END
     <div class="sending-mail">
-      <form class="form-signin" action="php/insertMailContent.php" method="POST">
+      <form class="form-signin" id="mailForm">
         <span id="reauth-email" class="reauth-email"></span>
         <input type="text" style="visibility: hidden;" name="nameTo" value={$contact['MailFrom']}>
         <input type="text" id="mailContent" class="form-control" style="height:150px;" placeholder="Edit Content" required autofocus name="content">
@@ -61,7 +65,8 @@ function getContent($name){
 
   $query = "SELECT Mail.IdFrom, Mail.IdTo, Mail.Content, Mail.CreateAt, Mail.Enabled
             FROM User INNER JOIN Mail 
-            WHERE User.Name='$name' AND ((Mail.IdFrom={$_SESSION['IdUser']} AND Mail.IdTo=User.IdUser) OR (Mail.IdTo={$_SESSION['IdUser']} AND Mail.IdFrom=User.IdUser));";
+            WHERE User.Name='$name' AND ((Mail.IdFrom={$_SESSION['IdUser']} AND Mail.IdTo=User.IdUser) 
+                  OR (Mail.IdTo={$_SESSION['IdUser']} AND Mail.IdFrom=User.IdUser));";
     
   if($result = $conn->query($query)){
     $return_v = array();

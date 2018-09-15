@@ -6,7 +6,7 @@ PrintHTML();
 
 function PrintHTML(){
   $selected  = randMusic($max_in_carousel=7);
-  $selected += chooseMusic($num_tag_select=5, $min_music_num=0, $max_in_carousel=7);
+  $selected += chooseMusic($num_tag_select=5, $min_music_num=2, $max_in_carousel=7);
   
 
   foreach($selected as $tag => $musics){
@@ -95,7 +95,7 @@ function chooseMusic($num_tag_select=5, $min_music_num=1, $max_in_carousel=7){
             FROM ( SELECT TagName
                    From Tag
                    GROUP BY TagName
-                   HAVING COUNT(TagName) > $MIN) as TEMP
+                   HAVING COUNT(TagName) >= $MIN) as TEMP
             ORDER BY rand() 
             LIMIT $NUM";
 

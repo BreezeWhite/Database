@@ -19,20 +19,30 @@ $("#commitCmt").click(function(){
   var music = decodeURI($.urlParam('path'));
   $.post("php/insertMusicComment.php", { comment: cmt, music_path: music })
     .done(function(last_id){
-      $("#playerPane").after($.cardTemplate(cmt, last_id));
-      $("#comment_"+last_id).hide().fadeIn(1200);
+      $.newComment(cmt, last_id);
       $("#cmtMSG").val('');
     })
     .fail(function(jqXHR, textStatus ){
       alert('fail' + textStatus);
     });
 });
-$.cardTemplate = function(text, id){
-  var user_name = "<?php echo $_SESSION['UserName']; ?>";
-  return "<div class='card mb-1' id='comment_"+ id +"'>\
-            <div class='card-header'>"+ user_name +"</div>\
-            <div class='card-body'>\
-              <p class='card-text'>" + text + "</p>\
-            </div>\
-          </div>";
+$.newComment = function(text, id){
+  $.get("../php/getCurrentLoginName.php")
+    .done(function(name) { 
+      $("#playerPane").after("<div class='card mb-1' id='comment_"+ id +"'>\
+                                <div class='card-header'>"+ name +"</div>\
+                                <div class='card-body'>\
+                                  <p class='card-text'>" + text + "</p>\
+                                </div>\
+                              </div>");
+      $("#comment_"+id).hide().fadeIn(1200);
+    })
+    .fail(function(jxx, textStatus, msg) {
+      alert("Fail textStatus: "+textStaus+"  Message: "+msg);
+      return 0;
+    });
 };
+
+
+
+
